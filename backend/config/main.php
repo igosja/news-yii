@@ -1,4 +1,12 @@
 <?php
+declare(strict_types=1);
+
+use common\models\db\User;
+use yii\bootstrap4\LinkPager;
+use yii\grid\GridView;
+use yii\log\DbTarget;
+use yii\redis\Session;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -7,44 +15,63 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
     'components' => [
-        'request' => [
-            'csrfParam' => '_csrf-backend',
-        ],
-        'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-        ],
-        'session' => [
-            // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
-        ],
-        'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => \yii\log\FileTarget::class,
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
+        'assetManager' => [
+            'appendTimestamp' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+        'log' => [
+            'targets' => [
+                [
+                    'class' => DbTarget::class,
+                    'levels' => ['error', 'warning'],
+                ],
+            ],
+            'traceLevel' => YII_DEBUG ? 3 : 0,
+        ],
+        'request' => [
+            'baseUrl' => '/admin',
+            'csrfParam' => '_csrf-backend',
+        ],
+        'session' => [
+            'class' => Session::class,
+            'name' => 'pqfteszmme',
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
             'rules' => [
+                '' => 'site/index',
+                'login' => 'site/login',
+                'logout' => 'site/logout',
+                '<controller:\w+>/' => '<controller>/index',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
+            ],
+            'showScriptName' => false,
+        ],
+        'user' => [
+            'enableAutoLogin' => true,
+            'identityClass' => User::class,
+            'identityCookie' => ['name' => 'miecxkhpeh', 'httpOnly' => true],
+        ],
+    ],
+    'container' => [
+        'definitions' => [
+            GridView::class => [
+                'options' => ['class' => 'col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive'],
+                'tableOptions' => ['class' => 'table table-bordered table-hover'],
+                'pager' => [
+                    'class' => LinkPager::class,
+                ],
             ],
         ],
-        */
     ],
+    'controllerNamespace' => 'backend\controllers',
+    'id' => 'app-backend',
     'params' => $params,
 ];

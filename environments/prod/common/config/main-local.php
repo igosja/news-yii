@@ -1,16 +1,17 @@
 <?php
+declare(strict_types=1);
 
 return [
     'components' => [
         'db' => [
-            'class' => \yii\db\Connection::class,
+            'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=yii2advanced',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',
         ],
         'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
+            'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',
         ],
     ],

@@ -1,9 +1,12 @@
 <?php
+declare(strict_types=1);
+
+use yii\gii\Module as GiiModule;
+use yii\debug\Module as DebugModule;
 
 $config = [
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '',
         ],
     ],
@@ -13,12 +16,13 @@ if (!YII_ENV_TEST) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
-        'class' => \yii\debug\Module::class,
+        'allowedIPs' => ['*'],
+        'class' => DebugModule::class,
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
-        'class' => \yii\gii\Module::class,
+        'class' => GiiModule::class,
     ];
 }
 

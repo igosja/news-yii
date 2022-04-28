@@ -1,43 +1,29 @@
 <?php
+declare(strict_types=1);
+
+use yii\db\Connection as DbConnection;
+use yii\redis\Connection as RedisConnection;
+use yii\swiftmailer\Mailer;
 
 return [
     'components' => [
         'db' => [
-            'class' => \yii\db\Connection::class,
-            'dsn' => 'mysql:host=localhost;dbname=yii2advanced',
-            'username' => 'root',
-            'password' => '',
+            'class' => DbConnection::class,
+            'dsn' => 'mysql:host=mysql;dbname=yii',
+            'username' => 'yii',
+            'password' => 'password',
             'charset' => 'utf8',
         ],
         'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
+            'class' => Mailer::class,
             'viewPath' => '@common/mail',
-            // send all mails to a file by default.
             'useFileTransport' => true,
-            // You have to set
-            //
-            // 'useFileTransport' => false,
-            //
-            // and configure a transport for the mailer to send real emails.
-            //
-            // SMTP server example:
-            //    'transport' => [
-            //        'scheme' => 'smtps',
-            //        'host' => '',
-            //        'username' => '',
-            //        'password' => '',
-            //        'port' => 465,
-            //        'dsn' => 'native://default',
-            //    ],
-            //
-            // DSN example:
-            //    'transport' => [
-            //        'dsn' => 'smtp://user:pass@smtp.example.com:25',
-            //    ],
-            //
-            // See: https://symfony.com/doc/current/mailer.html#using-built-in-transports
-            // Or if you use a 3rd party service, see:
-            // https://symfony.com/doc/current/mailer.html#using-a-3rd-party-transport
+        ],
+        'redis' => [
+            'class' => RedisConnection::class,
+            'database' => 0,
+            'hostname' => 'redis',
+            'port' => 6379,
         ],
     ],
 ];

@@ -1,11 +1,16 @@
 <?php
+declare(strict_types=1);
+
+use common\models\User as DbUser;
+use yii\web\User as WebUser;
+
 return [
-    'id' => 'app-common-tests',
     'basePath' => dirname(__DIR__),
     'components' => [
         'user' => [
-            'class' => \yii\web\User::class,
-            'identityClass' => 'common\models\User',
+            'class' => WebUser::class,
+            'identityClass' => DbUser::class,
         ],
     ],
+    'id' => 'app-common-tests',
 ];
