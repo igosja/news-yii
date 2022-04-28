@@ -1,0 +1,9 @@
+AddDefaultCharset UTF-8
+RewriteEngine on
+
+# if it's a folder or file, open it
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# otherwise redirect to index.php
+RewriteRule . index.php
