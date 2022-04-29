@@ -8,14 +8,15 @@ use common\services\ContactService;
 use common\services\LoginService;
 use common\services\PasswordResetRequestService;
 use common\services\ResendVerificationEmailService;
+use common\services\ResetPasswordService;
 use common\services\SignupService;
 use common\services\VerifyEmailService;
 use frontend\models\forms\ContactForm;
 use frontend\models\forms\PasswordResetRequestForm;
 use frontend\models\forms\ResendVerificationEmailForm;
+use frontend\models\forms\ResetPasswordForm;
 use frontend\models\forms\SignupForm;
 use frontend\models\forms\VerifyEmailForm;
-use frontend\models\ResetPasswordForm;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\captcha\CaptchaAction;
@@ -63,9 +64,9 @@ class SiteController extends AbstractController
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
-    public function actions()
+    public function actions(): array
     {
         return [
             'error' => [
@@ -151,16 +152,6 @@ class SiteController extends AbstractController
     }
 
     /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
-
-    /**
      * @return string|\yii\web\Response
      * @throws \yii\base\Exception
      */
@@ -183,7 +174,6 @@ class SiteController extends AbstractController
             'model' => $model,
         ]);
     }
-
 
     /**
      * @return \yii\web\Response|string
@@ -212,13 +202,12 @@ class SiteController extends AbstractController
     }
 
     /**
-     * Resets password.
-     *
      * @param string $token
-     * @return mixed
-     * @throws BadRequestHttpException
+     * @return \yii\web\Response|string
+     * @throws \yii\base\Exception
+     * @throws \yii\web\BadRequestHttpException
      */
-    public function actionResetPassword($token)
+    public function actionResetPassword(string $token): Response|string
     {
         try {
             $model = new ResetPasswordForm($token);
@@ -226,13 +215,19 @@ class SiteController extends AbstractController
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'New password saved.');
+        if ($model->load(Yii::$app->request->post())) {
+            $service = new ResetPasswordService($model);
+            if ($service->execute()) {
+                $this->successFlash(Yii::t('app', 'New password saved.'));
 
-            return $this->goHome();
+                return $this->goHome();
+            }
         }
 
-        return $this->render('resetPassword', [
+        $this->view->title = Yii::t('app', 'Reset password');
+        $this->view->params['breadcrumbs'][] = $this->view->title;
+
+        return $this->render('reset-password', [
             'model' => $model,
         ]);
     }
