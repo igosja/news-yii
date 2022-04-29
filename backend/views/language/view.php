@@ -11,7 +11,6 @@ use yii\widgets\DetailView;
  */
 
 ?>
-<h1><?= Html::encode($this->title) ?></h1>
 <ul class="list-inline text-center">
     <li class="list-inline-item">
         <?= Html::a(Yii::t('app', 'List'), ['index'], ['class' => ['btn', 'btn-default']]) ?>

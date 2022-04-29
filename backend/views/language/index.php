@@ -13,7 +13,6 @@ use yii\helpers\Html;
  */
 
 ?>
-<h1><?= Html::encode($this->title) ?></h1>
 <ul class="list-inline text-center">
     <li class="list-inline-item">
         <?= Html::a(Yii::t('app', 'Create'), ['create'], ['class' => ['btn', 'btn-default']]) ?>

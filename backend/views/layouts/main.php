@@ -40,6 +40,7 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
         ['label' => Yii::t('app', 'Languages'), 'url' => ['/language/index']],
+        ['label' => Yii::t('app', 'Logs'), 'url' => ['/log/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => Yii::t('app', 'Log In'), 'url' => ['/site/login']];
@@ -92,6 +93,7 @@ AppAsset::register($this);
         } catch (Throwable $e) {
             ErrorHelper::log($e);
         } ?>
+        <?= $this->title ? '<h1 class="text-center">' . $this->title . '</h1>' : '' ?>
         <?= $content ?>
     </div>
 </main>
