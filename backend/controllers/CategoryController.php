@@ -3,31 +3,31 @@ declare(strict_types=1);
 
 namespace backend\controllers;
 
-use backend\models\search\LanguageSearch;
-use common\models\db\Language;
+use backend\models\search\CategorySearch;
+use common\models\db\Category;
 use Yii;
 use yii\web\Response;
 
 /**
- * Class LanguageController
+ * Class CategoryController
  * @package backend\controllers
  */
-class LanguageController extends AbstractController
+class CategoryController extends AbstractController
 {
     /**
      * @var string $dbClass
      */
-    protected string $dbClass = Language::class;
+    protected string $dbClass = Category::class;
 
     /**
      * @return string
      */
     public function actionIndex(): string
     {
-        $searchModel = new LanguageSearch();
+        $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->get());
 
-        $this->view->title = Yii::t('app', 'Languages');
+        $this->view->title = Yii::t('app', 'Categories');
         $this->view->params['breadcrumbs'][] = $this->view->title;
 
         return $this->render('index', [
@@ -41,15 +41,15 @@ class LanguageController extends AbstractController
      */
     public function actionCreate(): Response|string
     {
-        $model = new Language();
+        $model = new Category();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $this->successFlash();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        $this->view->title = Yii::t('app', 'Create language');
-        $this->view->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Languages'), 'url' => ['language/index']];
+        $this->view->title = Yii::t('app', 'Create category');
+        $this->view->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['category/index']];
         $this->view->params['breadcrumbs'][] = $this->view->title;
 
         return $this->render('create', [
@@ -72,11 +72,11 @@ class LanguageController extends AbstractController
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        $this->view->title = Yii::t('app', 'Update language');
-        $this->view->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Languages'), 'url' => ['language/index']];
+        $this->view->title = Yii::t('app', 'Update category');
+        $this->view->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['category/index']];
         $this->view->params['breadcrumbs'][] = [
             'label' => $model->name,
-            'url' => ['language/view', 'id' => $model->id]
+            'url' => ['category/view', 'id' => $model->id]
         ];
         $this->view->params['breadcrumbs'][] = $this->view->title;
 
@@ -96,7 +96,7 @@ class LanguageController extends AbstractController
         $model = $this->getModel($id);
 
         $this->view->title = $model->name;
-        $this->view->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Languages'), 'url' => ['language/index']];
+        $this->view->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['category/index']];
         $this->view->params['breadcrumbs'][] = $this->view->title;
 
         return $this->render('view', [
