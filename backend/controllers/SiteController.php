@@ -47,9 +47,9 @@ class SiteController extends AbstractController
     }
 
     /**
-     * {@inheritdoc}
+     * @return \string[][]
      */
-    public function actions()
+    public function actions(): array
     {
         return [
             'error' => [
@@ -77,7 +77,7 @@ class SiteController extends AbstractController
             return $this->goHome();
         }
 
-        $this->layout = 'main-login';
+        $this->layout = 'blank';
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post())) {
@@ -98,11 +98,9 @@ class SiteController extends AbstractController
     }
 
     /**
-     * Logout action.
-     *
-     * @return Response
+     * @return \yii\web\Response
      */
-    public function actionLogout()
+    public function actionLogout(): Response
     {
         Yii::$app->user->logout();
 

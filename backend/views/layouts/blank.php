@@ -1,7 +1,10 @@
 <?php
+declare(strict_types=1);
 
-/** @var yii\web\View $this */
-/** @var string $content */
+/**
+ * @var string $content
+ * @var \yii\web\View $this
+ */
 
 use backend\assets\AppAsset;
 use yii\helpers\Html;

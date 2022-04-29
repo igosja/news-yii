@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use common\models\db\User;
-use yii\bootstrap4\LinkPager;
+use yii\bootstrap5\LinkPager;
 use yii\grid\GridView;
 use yii\log\DbTarget;
 use yii\redis\Session;
