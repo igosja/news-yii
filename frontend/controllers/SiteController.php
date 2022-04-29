@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace frontend\controllers;
 
 use common\models\forms\LoginForm;
+use common\services\ContactService;
 use common\services\LoginService;
 use common\services\SignupService;
-use frontend\models\ContactForm;
+use frontend\models\forms\ContactForm;
 use frontend\models\forms\SignupForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResendVerificationEmailForm;
@@ -124,22 +125,24 @@ class SiteController extends AbstractController
     }
 
     /**
-     * Displays contact page.
-     *
-     * @return mixed
+     * @return string|\yii\web\Response
      */
-    public function actionContact()
+    public function actionContact(): Response|string
     {
         $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+        if ($model->load(Yii::$app->request->post())) {
+            $service = (new ContactService($model));
+            if ($service->execute()) {
+                $this->successFlash(Yii::t('app', 'Thank you for contacting us. We will respond to you as soon as possible.'));
             } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+                $this->errorFlash(Yii::t('app', 'There was an error sending your message.'));
             }
 
             return $this->refresh();
         }
+
+        $this->view->title = Yii::t('app', 'Contact');
+        $this->view->params['breadcrumbs'][] = $this->view->title;
 
         return $this->render('contact', [
             'model' => $model,
