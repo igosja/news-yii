@@ -113,11 +113,9 @@ class SiteController extends AbstractController
     }
 
     /**
-     * Logs out the current user.
-     *
-     * @return mixed
+     * @return \yii\web\Response
      */
-    public function actionLogout()
+    public function actionLogout(): Response
     {
         Yii::$app->user->logout();
 
