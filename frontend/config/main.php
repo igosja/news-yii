@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 use common\models\db\User;
-use frontend\controllers\OfflineController;
 use yii\grid\GridView;
 use yii\log\DbTarget;
 use yii\redis\Session;
@@ -80,8 +79,7 @@ return [
         ],
     ],
     'controllerNamespace' => 'frontend\controllers',
-    'homeUrl' => ['dashboard/index'],
     'id' => 'app-frontend',
-    'name' => Yii::t('app', 'Home finance'),
+    'name' => Yii::t('app', 'News'),
     'params' => $params,
 ];
