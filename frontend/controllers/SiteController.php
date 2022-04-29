@@ -7,12 +7,13 @@ use common\models\forms\LoginForm;
 use common\services\ContactService;
 use common\services\LoginService;
 use common\services\SignupService;
+use common\services\VerifyEmailService;
 use frontend\models\forms\ContactForm;
 use frontend\models\forms\SignupForm;
+use frontend\models\forms\VerifyEmailForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\ResetPasswordForm;
-use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\captcha\CaptchaAction;
@@ -231,25 +232,25 @@ class SiteController extends AbstractController
     }
 
     /**
-     * Verify email address
-     *
      * @param string $token
-     * @throws BadRequestHttpException
-     * @return yii\web\Response
+     * @return \yii\web\Response
+     * @throws \yii\web\BadRequestHttpException
      */
-    public function actionVerifyEmail($token)
+    public function actionVerifyEmail(string $token): Response
     {
         try {
             $model = new VerifyEmailForm($token);
         } catch (InvalidArgumentException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
-        if (($user = $model->verifyEmail()) && Yii::$app->user->login($user)) {
-            Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
+
+        $service = new VerifyEmailService($model);
+        if ($service->execute() && Yii::$app->user->login($model->getUser())) {
+            $this->successFlash(Yii::t('app', 'Your email has been confirmed!'));
             return $this->goHome();
         }
 
-        Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
+        $this->errorFlash(Yii::t('app', 'Sorry, we are unable to verify your account with provided token.'));
         return $this->goHome();
     }
 
