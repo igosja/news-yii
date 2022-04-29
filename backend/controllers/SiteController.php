@@ -1,12 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace backend\controllers;
 
-use common\models\LoginForm;
+use backend\models\forms\LoginForm;
+use common\services\LoginService;
 use Yii;
-use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\ErrorAction;
 use yii\web\Response;
 
 /**
@@ -50,7 +53,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => \yii\web\ErrorAction::class,
+                'class' => ErrorAction::class,
             ],
         ];
     }
@@ -66,24 +69,28 @@ class SiteController extends Controller
     }
 
     /**
-     * Login action.
-     *
-     * @return string|Response
+     * @return \yii\web\Response|string
      */
-    public function actionLogin()
+    public function actionLogin(): Response|string
     {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
-        $this->layout = 'blank';
+        $this->layout = 'main-login';
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        if ($model->load(Yii::$app->request->post())) {
+            $service = new LoginService($model);
+            if ($service->execute()) {
+                return $this->goBack();
+            }
         }
 
         $model->password = '';
+
+        $this->view->title = Yii::t('app', 'Login');
+        $this->view->params['breadcrumbs'][] = $this->view->title;
 
         return $this->render('login', [
             'model' => $model,
