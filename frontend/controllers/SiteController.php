@@ -7,13 +7,14 @@ use common\models\forms\LoginForm;
 use common\services\ContactService;
 use common\services\LoginService;
 use common\services\PasswordResetRequestService;
+use common\services\ResendVerificationEmailService;
 use common\services\SignupService;
 use common\services\VerifyEmailService;
 use frontend\models\forms\ContactForm;
 use frontend\models\forms\PasswordResetRequestForm;
+use frontend\models\forms\ResendVerificationEmailForm;
 use frontend\models\forms\SignupForm;
 use frontend\models\forms\VerifyEmailForm;
-use frontend\models\ResendVerificationEmailForm;
 use frontend\models\ResetPasswordForm;
 use Yii;
 use yii\base\InvalidArgumentException;
@@ -260,22 +261,26 @@ class SiteController extends AbstractController
     }
 
     /**
-     * Resend verification email
-     *
-     * @return mixed
+     * @return string|\yii\web\Response
      */
-    public function actionResendVerificationEmail()
+    public function actionResendVerificationEmail(): Response|string
     {
         $model = new ResendVerificationEmailForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+        if ($model->load(Yii::$app->request->post())) {
+            $service = new ResendVerificationEmailService($model);
+            if ($service->execute()) {
+                $this->successFlash(Yii::t('app', 'Check your email for further instructions.'));
+
                 return $this->goHome();
             }
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
+
+            $this->errorFlash(Yii::t('app', 'Sorry, we are unable to resend verification email for the provided email address.'));
         }
 
-        return $this->render('resendVerificationEmail', [
+        $this->view->title = Yii::t('app', 'Resend verification email');
+        $this->view->params['breadcrumbs'][] = $this->view->title;
+
+        return $this->render('resend-verification-email', [
             'model' => $model
         ]);
     }

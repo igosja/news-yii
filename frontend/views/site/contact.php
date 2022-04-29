@@ -17,7 +17,7 @@ use yii\captcha\Captcha;
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(); ?>
+            <?php $form = ActiveForm::begin() ?>
             <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
             <?= $form->field($model, 'email') ?>
             <?= $form->field($model, 'subject') ?>
@@ -34,7 +34,7 @@ use yii\captcha\Captcha;
             <div class="form-group">
                 <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn', 'btn-primary']) ?>
             </div>
-            <?php ActiveForm::end(); ?>
+            <?php ActiveForm::end() ?>
         </div>
     </div>
 </div>

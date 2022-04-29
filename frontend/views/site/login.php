@@ -15,7 +15,7 @@ use yii\bootstrap5\Html;
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(); ?>
+            <?php $form = ActiveForm::begin() ?>
             <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
             <?= $form->field($model, 'password')->passwordInput() ?>
             <?= $form->field($model, 'rememberMe')->checkbox() ?>
@@ -31,7 +31,7 @@ use yii\bootstrap5\Html;
             <div class="form-group">
                 <?= Html::submitButton(Yii::t('app', 'Log In'), ['class' => ['btn', 'btn-primary']]) ?>
             </div>
-            <?php ActiveForm::end(); ?>
+            <?php ActiveForm::end() ?>
         </div>
     </div>
 </div>
