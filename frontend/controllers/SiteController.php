@@ -17,19 +17,19 @@ use yii\captcha\CaptchaAction;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
-use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
 /**
- * Site controller
+ * Class SiteController
+ * @package frontend\controllers
  */
-class SiteController extends Controller
+class SiteController extends AbstractController
 {
     /**
-     * {@inheritdoc}
+     * @return array[]
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'access' => [

@@ -8,19 +8,19 @@ use common\services\LoginService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\ErrorAction;
 use yii\web\Response;
 
 /**
- * Site controller
+ * Class SiteController
+ * @package backend\controllers
  */
-class SiteController extends Controller
+class SiteController extends AbstractController
 {
     /**
-     * {@inheritdoc}
+     * @return array[]
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'access' => [
