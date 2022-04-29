@@ -6,12 +6,13 @@ namespace frontend\controllers;
 use common\models\forms\LoginForm;
 use common\services\ContactService;
 use common\services\LoginService;
+use common\services\PasswordResetRequestService;
 use common\services\SignupService;
 use common\services\VerifyEmailService;
 use frontend\models\forms\ContactForm;
+use frontend\models\forms\PasswordResetRequestForm;
 use frontend\models\forms\SignupForm;
 use frontend\models\forms\VerifyEmailForm;
-use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\ResetPasswordForm;
 use Yii;
@@ -182,25 +183,29 @@ class SiteController extends AbstractController
         ]);
     }
 
+
     /**
-     * Requests password reset.
-     *
-     * @return mixed
+     * @return \yii\web\Response|string
+     * @throws \yii\base\Exception
      */
-    public function actionRequestPasswordReset()
+    public function actionRequestPasswordReset(): Response|string
     {
         $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+        if ($model->load(Yii::$app->request->post())) {
+            $service = new PasswordResetRequestService($model);
+            if ($service->execute()) {
+                $this->successFlash(Yii::t('app', 'Check your email for further instructions.'));
 
                 return $this->goHome();
             }
 
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
+            $this->errorFlash(Yii::t('app', 'Sorry, we are unable to reset password for the provided email address.'));
         }
 
-        return $this->render('requestPasswordResetToken', [
+        $this->view->title = Yii::t('app', 'Request password reset');
+        $this->view->params['breadcrumbs'][] = $this->view->title;
+
+        return $this->render('request-password-reset', [
             'model' => $model,
         ]);
     }
