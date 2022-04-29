@@ -39,6 +39,7 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
+        ['label' => Yii::t('app', 'Translations'), 'url' => ['/translation/index']],
         ['label' => Yii::t('app', 'Languages'), 'url' => ['/language/index']],
         ['label' => Yii::t('app', 'Logs'), 'url' => ['/log/index']],
     ];
