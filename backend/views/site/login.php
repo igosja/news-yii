@@ -19,7 +19,7 @@ use yii\bootstrap5\Html;
         <?= $form->field($model, 'password')->passwordInput() ?>
         <?= $form->field($model, 'rememberMe')->checkbox() ?>
         <div class="form-group">
-            <?= Html::submitButton(Yii::t('app', 'Log In'), ['class' => 'btn btn-primary btn-block']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Log In'), ['class' => ['btn', 'btn-primary', 'btn-block']]) ?>
         </div>
         <?php ActiveForm::end(); ?>
     </div>

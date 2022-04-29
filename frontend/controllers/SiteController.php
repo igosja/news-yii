@@ -5,11 +5,12 @@ namespace frontend\controllers;
 
 use common\models\forms\LoginForm;
 use common\services\LoginService;
+use common\services\SignupService;
 use frontend\models\ContactForm;
+use frontend\models\forms\SignupForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
@@ -156,17 +157,23 @@ class SiteController extends AbstractController
     }
 
     /**
-     * Signs user up.
-     *
-     * @return mixed
+     * @return string|\yii\web\Response
+     * @throws \yii\base\Exception
      */
-    public function actionSignup()
+    public function actionSignup(): Response|string
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->goHome();
+        if ($model->load(Yii::$app->request->post())) {
+            $service = new SignupService($model);
+            if ($service->execute()) {
+                $this->successFlash(Yii::t('app', 'Thank you for registration. Please check your inbox for verification email.'));
+
+                return $this->goHome();
+            }
         }
+
+        $this->view->title = Yii::t('app', 'Sign Up');
+        $this->view->params['breadcrumbs'][] = $this->view->title;
 
         return $this->render('signup', [
             'model' => $model,

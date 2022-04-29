@@ -29,7 +29,7 @@ use yii\bootstrap5\Html;
                 ]) ?>
             </div>
             <div class="form-group">
-                <?= Html::submitButton(Yii::t('app', 'Log In'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                <?= Html::submitButton(Yii::t('app', 'Log In'), ['class' => ['btn', 'btn-primary']]) ?>
             </div>
             <?php ActiveForm::end(); ?>
         </div>
