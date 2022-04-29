@@ -56,7 +56,7 @@ class SignupService implements ExecuteInterface
         return Yii::$app
             ->mailer
             ->compose(
-                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
+                ['html' => 'email-verify-html', 'text' => 'email-verify-text'],
                 ['user' => $user]
             )
             ->setFrom([Yii::$app->params['supportEmail'] => Yii::t('app', '{name} robot', ['name' => Yii::$app->name])])
