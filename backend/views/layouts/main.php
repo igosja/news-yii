@@ -54,7 +54,7 @@ AppAsset::register($this);
             'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
             'items' => $menuItems,
         ]);
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         ErrorHelper::log($e);
     }
 
@@ -87,7 +87,7 @@ AppAsset::register($this);
             print Breadcrumbs::widget([
                 'links' => $this->params['breadcrumbs'] ?? [],
             ]);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             ErrorHelper::log($e);
         } ?>
         <?php

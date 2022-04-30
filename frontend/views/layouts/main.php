@@ -1,8 +1,10 @@
 <?php
 
 /** @var \yii\web\View $this */
+
 /** @var string $content */
 
+use common\helpers\ErrorHelper;
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
@@ -36,24 +38,36 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
     }
 
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
-        'items' => $menuItems,
-    ]);
+    try {
+        print Nav::widget([
+            'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
+            'items' => $menuItems,
+        ]);
+    } catch (Throwable $e) {
+        ErrorHelper::log($e);
+    }
+
     if (Yii::$app->user->isGuest) {
-        echo Html::tag('div',Html::a('Login',['/site/login'],['class' => ['btn btn-link login text-decoration-none']]),['class' => ['d-flex']]);
+        echo Html::tag(
+            'div',
+            Html::a(
+                Yii::t('app', 'Log In'),
+                ['/site/login'],
+                ['class' => ['btn', 'btn-link', 'login', 'text-decoration-none']]
+            ),
+            ['class' => ['d-flex']]
+        );
     } else {
         echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout text-decoration-none']
+                Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
+                ['class' => ['btn', 'btn-link', 'logout', 'text-decoration-none']]
             )
             . Html::endForm();
     }
@@ -63,10 +77,20 @@ AppAsset::register($this);
 
 <main role="main" class="flex-shrink-0">
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
+        <?php
+        try {
+            print Breadcrumbs::widget([
+                'links' => $this->params['breadcrumbs'] ?? [],
+            ]);
+        } catch (Throwable $e) {
+            ErrorHelper::log($e);
+        } ?>
+        <?php
+        try {
+            print Alert::widget();
+        } catch (Throwable $e) {
+            ErrorHelper::log($e);
+        } ?>
         <?= $content ?>
     </div>
 </main>
@@ -81,4 +105,4 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 </body>
 </html>
-<?php $this->endPage();
+<?php $this->endPage(); ?>

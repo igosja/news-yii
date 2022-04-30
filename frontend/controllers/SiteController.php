@@ -80,13 +80,11 @@ class SiteController extends AbstractController
     }
 
     /**
-     * Displays homepage.
-     *
-     * @return mixed
+     * @return \yii\web\Response
      */
-    public function actionIndex()
+    public function actionIndex(): Response
     {
-        return $this->render('index');
+        return $this->redirect(['post/index']);
     }
 
     /**
