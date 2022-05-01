@@ -51,6 +51,8 @@ class PostController extends AbstractController
             throw new NotFoundHttpException();
         }
 
+        Post::updateAllCounters(['views' => 1], ['id' => $model->id]);
+
         $this->view->title = Yii::t('app', $model->translation_title[Yii::$app->language]);
         $this->view->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Posts'), 'url' => ['/post/index']];
         $this->view->params['breadcrumbs'][] = $this->view->title;

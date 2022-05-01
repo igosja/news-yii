@@ -31,6 +31,7 @@ class M220430095504Post extends Migration
             'updated_at' => $this->integer()->notNull(),
             'updated_by' => $this->integer()->notNull(),
             'url' => $this->string()->notNull()->unique(),
+            'views' => $this->integer()->defaultValue(0),
         ]);
 
         $this->addForeignKey('post_category', self::TABLE, 'category_id', '{{%category}}', 'id');
