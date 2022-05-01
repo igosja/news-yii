@@ -20,6 +20,12 @@ abstract class AbstractWebController extends Controller
      * @var \common\models\db\User|null $user
      */
     public ?User $user = null;
+
+    /**
+     * @var \common\models\db\Language|null $language
+     */
+    public Language|null $language = null;
+
     /**
      * @var string $dbClass
      */
@@ -72,10 +78,12 @@ abstract class AbstractWebController extends Controller
             ->all();
         foreach ($languages as $language) {
             if ($language->code === Yii::$app->language) {
+                $this->language = $language;
                 return;
             }
         }
 
+        $this->language = $languages[0];
         Yii::$app->language = $language ? $language->code : 'uk';
     }
 

@@ -26,6 +26,7 @@ use yii\db\ActiveRecord;
  * @property int $updated_at
  * @property int $updated_by
  * @property int $url
+ * @property int $views
  *
  * @property Category $category
  * @property User $createdBy
@@ -74,7 +75,7 @@ class Post extends ActiveRecord
             [['name', 'url'], 'trim'],
             [['url'], 'unique'],
             [['is_active'], 'boolean'],
-            [['category_id', 'created_at', 'created_by', 'image_id', 'updated_at', 'updated_by'], 'integer'],
+            [['category_id', 'created_at', 'created_by', 'image_id', 'updated_at', 'updated_by', 'views'], 'integer'],
             [['category_id'], 'exist', 'targetRelation' => 'category'],
             [['image_id'], 'exist', 'targetRelation' => 'image'],
             [['upload_image'], 'image', 'extensions' => 'png, jpg, jpeg, gif'],
@@ -109,6 +110,7 @@ class Post extends ActiveRecord
             'updated_at' => Yii::t('app', 'Updated at'),
             'updated_by' => Yii::t('app', 'Updated by'),
             'url' => Yii::t('app', 'Url'),
+            'views' => Yii::t('app', 'Views'),
         ];
     }
 
