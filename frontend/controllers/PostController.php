@@ -5,8 +5,10 @@ namespace frontend\controllers;
 
 use common\models\db\Comment;
 use common\models\db\Post;
+use common\models\db\Rating;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -81,5 +83,28 @@ class PostController extends AbstractController
             'model' => $model,
             'post' => $post,
         ]);
+    }
+
+    public function actionRating($url, $value)
+    {
+        $post = Post::find()
+            ->andWhere(['is_active' => true])
+            ->andWhere(['url' => $url])
+            ->one();
+        if (!$post || !ArrayHelper::isIn($value, [1, -1])) {
+            return $this->redirect(['post/view', 'url' => $url]);
+        }
+
+        $model = Rating::find()
+            ->andWhere(['post_id' => $post->id, 'created_by' => $this->user->id])
+            ->one();
+        if (!$model) {
+            $model = new Rating();
+            $model->post_id = $post->id;
+        }
+        $model->value = $value;
+        $model->save();
+
+        return $this->redirect(['post/view', 'url' => $url]);
     }
 }

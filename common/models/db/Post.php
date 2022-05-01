@@ -115,6 +115,14 @@ class Post extends ActiveRecord
     }
 
     /**
+     * @return int
+     */
+    public function rating(): int
+    {
+        return (int)Rating::find()->andWhere(['post_id' => $this->id])->sum('value');
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCategory(): ActiveQuery

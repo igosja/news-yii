@@ -17,6 +17,11 @@ use yii\widgets\ListView;
     <?= Html::img($post->image->path, ['class' => 'img-fluid']) ?>
     <?= $post->translation_text[Yii::$app->language] ?>
 </div>
+<div class="col-12">
+    <?= Html::a('+', ['post/rating', 'url' => $post->url, 'value' => 1]) ?>
+    <?= $post->rating() ?>
+    <?= Html::a('-', ['post/rating', 'url' => $post->url, 'value' => -1]) ?>
+</div>
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <?php $form = ActiveForm::begin() ?>
