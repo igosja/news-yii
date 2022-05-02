@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 /**
  * @var string $content
+ * @var \backend\controllers\AbstractController $context
  * @var \yii\web\View $this
  */
 
@@ -13,8 +14,11 @@ use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
+use yii\helpers\ArrayHelper;
 
 AppAsset::register($this);
+
+$context = $this->context;
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -58,8 +62,17 @@ AppAsset::register($this);
         ErrorHelper::log($e);
     }
 
+    print Html::beginForm('', 'post', ['class' => 'd-flex'])
+        . Html::dropDownList(
+            'language',
+            $context->language->code,
+            ArrayHelper::map($context->languages, 'code', 'code'),
+            ['class' => 'form-control', 'onchange' => 'submit()']
+        )
+        . Html::endForm();
+
     if (Yii::$app->user->isGuest) {
-        echo Html::tag(
+        print Html::tag(
             'div',
             Html::a(
                 Yii::t('app', 'Log In'),
@@ -69,7 +82,7 @@ AppAsset::register($this);
             ['class' => ['d-flex']]
         );
     } else {
-        echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
+        print Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
             . Html::submitButton(
                 Yii::t('app', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
                 ['class' => ['btn', 'btn-link', 'logout', 'text-decoration-none']]

@@ -27,6 +27,11 @@ abstract class AbstractWebController extends Controller
     public Language|null $language = null;
 
     /**
+     * @var \common\models\db\Language[]] $languages
+     */
+    public array $languages = [];
+
+    /**
      * @var string $dbClass
      */
     protected string $dbClass = ActiveRecord::class;
@@ -46,6 +51,7 @@ abstract class AbstractWebController extends Controller
             $this->loadCurrentUser();
         }
 
+        $this->loadLanguages();
         $this->loadLanguage();
 
         return true;
@@ -54,6 +60,17 @@ abstract class AbstractWebController extends Controller
     private function loadCurrentUser(): void
     {
         $this->user = Yii::$app->user->identity;
+    }
+
+    /**
+     * @return void
+     */
+    private function loadLanguages(): void
+    {
+        $this->languages = Language::find()
+            ->andWhere(['is_active' => true])
+            ->orderBy(['id' => SORT_DESC])
+            ->all();
     }
 
     /**
@@ -72,19 +89,15 @@ abstract class AbstractWebController extends Controller
 
         $language = null;
 
-        $languages = Language::find()
-            ->andWhere(['is_active' => true])
-            ->orderBy(['id' => SORT_DESC])
-            ->all();
-        foreach ($languages as $language) {
+        foreach ($this->languages as $language) {
             if ($language->code === Yii::$app->language) {
                 $this->language = $language;
                 return;
             }
         }
 
-        $this->language = $languages[0];
-        Yii::$app->language = $language ? $language->code : 'uk';
+        $this->language = $this->languages[0];
+        Yii::$app->language = $language->code ?? 'uk';
     }
 
     /**
