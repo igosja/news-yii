@@ -65,7 +65,10 @@ class PostController extends AbstractController
         }
 
         $query = Comment::find()
-            ->andWhere(['post_id' => $post->id]);
+            ->andWhere([
+                'language_id' => $this->language->id,
+                'post_id' => $post->id,
+            ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
