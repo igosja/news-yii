@@ -10,7 +10,7 @@ use Yii;
 use yii\web\UploadedFile;
 
 /**
- * Class ContactService
+ * Class UploadImageService
  * @package common\services
  */
 class UploadImageService implements ExecuteInterface
@@ -39,7 +39,7 @@ class UploadImageService implements ExecuteInterface
     public function execute(): bool
     {
         $file_name = substr(md5(uniqid('', true)), -20) . '.' . $this->_file->extension;
-        $path = array();
+        $path = [];
         $path[] = substr(md5(uniqid((string)mt_rand(), true)), -3);
         $path[] = substr(md5(uniqid((string)mt_rand(), true)), -3);
         $path[] = substr(md5(uniqid((string)mt_rand(), true)), -3);

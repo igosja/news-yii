@@ -45,9 +45,9 @@ class Resize extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['cut', 'height', 'image_id', 'path', 'width'], 'required'],
+            [['height', 'image_id', 'path', 'width'], 'required'],
             [['path'], 'string', 'max' => 255],
-            [['cut', 'height', 'image_id', 'width'], 'integer'],
+            [['height', 'image_id', 'width'], 'integer'],
             [['image_id'], 'exist', 'targetRelation' => 'image'],
         ];
     }
