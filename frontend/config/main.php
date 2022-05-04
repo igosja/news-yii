@@ -84,4 +84,5 @@ return [
     'id' => 'app-frontend',
     'name' => Yii::t('app', 'News'),
     'params' => $params,
+    'timeZone' => 'Europe/Kiev',
 ];

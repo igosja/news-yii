@@ -74,4 +74,5 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'id' => 'app-backend',
     'params' => $params,
+    'timeZone' => 'Europe/Kiev',
 ];
