@@ -27,4 +27,17 @@ class ImageHelper
         }
         return $service->getResize()->path;
     }
+
+    /**
+     * @return array
+     */
+    public static function generatePath(): array
+    {
+        $path = [];
+        $path[] = substr(md5(uniqid((string)mt_rand(), true)), -10);
+        $path[] = substr(md5(uniqid((string)mt_rand(), true)), -10);
+        $path[] = substr(md5(uniqid((string)mt_rand(), true)), -10);
+
+        return $path;
+    }
 }

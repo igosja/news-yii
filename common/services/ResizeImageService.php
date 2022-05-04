@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace common\services;
 
+use common\helpers\ImageHelper;
 use common\interfaces\ExecuteInterface;
 use common\models\db\Image;
 use common\models\db\Resize;
@@ -105,10 +106,7 @@ class ResizeImageService implements ExecuteInterface
 
         $file_name = substr(md5(uniqid('', true)), -20) . '.jpg';
 
-        $path = [];
-        $path[] = substr(md5(uniqid((string)mt_rand(), true)), -3);
-        $path[] = substr(md5(uniqid((string)mt_rand(), true)), -3);
-        $path[] = substr(md5(uniqid((string)mt_rand(), true)), -3);
+        $path = ImageHelper::generatePath();
 
         $upload_dir = Yii::getAlias('@frontend') . '/web/upload/' . implode('/', $path);
 
