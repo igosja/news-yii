@@ -49,6 +49,8 @@ return [
                 'contact' => 'site/contact',
                 'login' => 'site/login',
                 'logout' => 'site/logout',
+                'post/rating/<url>/<value>' => 'post/rating',
+                'post/<url>' => 'post/view',
                 'request-password-reset' => 'site/request-password-reset',
                 'resend-verification-email' => 'site/resend-verification-email',
                 'reset-password' => 'site/reset-password',
