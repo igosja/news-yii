@@ -68,10 +68,22 @@ class Rating extends ActiveRecord
             'created_at' => Yii::t('app', 'Created at'),
             'created_by' => Yii::t('app', 'Created by'),
             'post_id' => Yii::t('app', 'Post'),
-            'text' => Yii::t('app', 'Text'),
             'updated_at' => Yii::t('app', 'Updated at'),
             'updated_by' => Yii::t('app', 'Updated by'),
             'value' => Yii::t('app', 'Value'),
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function fields(): array
+    {
+        return [
+            'id',
+            'createdBy',
+            'post_id',
+            'value',
         ];
     }
 

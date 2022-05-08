@@ -73,6 +73,12 @@ return [
                         '{url}' => '<url>',
                     ],
                 ],
+                [
+                    'class' => UrlRule::class,
+                    'controller' => 'rating',
+                    'only' => ['create'],
+                    'pluralize' => false,
+                ],
             ],
             'showScriptName' => false,
         ],

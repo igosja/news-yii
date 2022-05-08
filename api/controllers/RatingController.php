@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace api\controllers;
 
-use common\models\db\Comment;
+use common\models\db\Rating;
 use Yii;
 use yii\base\InvalidArgumentException;
-use yii\data\ActiveDataProvider;
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
@@ -16,7 +15,7 @@ use yii\filters\auth\QueryParamAuth;
  * Class CommentController
  * @package api\controllers
  */
-class CommentController extends AbstractController
+class RatingController extends AbstractController
 {
     /**
      * @return array
@@ -37,31 +36,18 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @return \yii\data\ActiveDataProvider
+     * @return \common\models\db\Rating
      */
-    public function actionIndex(): ActiveDataProvider
+    public function actionCreate(): Rating
     {
-        $query = Comment::find()
-            ->andFilterWhere(['language_id' => Yii::$app->request->getBodyParam('language_id')])
-            ->andFilterWhere(['post_id' => Yii::$app->request->getBodyParam('post_id')]);
-
-        return new ActiveDataProvider([
-            'query' => $query,
-            'sort' => [
-                'defaultOrder' => ['id' => SORT_DESC],
-            ],
-        ]);
-    }
-
-    /**
-     * @return \common\models\db\Comment
-     */
-    public function actionCreate(): Comment
-    {
-        $model = new Comment();
-        $model->post_id = Yii::$app->request->getBodyParam('post_id');
-        $model->language_id = Yii::$app->request->getBodyParam('language_id');
-        $model->text = Yii::$app->request->getBodyParam('text');
+        $model = Rating::find()
+            ->andWhere(['post_id' => Yii::$app->request->getBodyParam('post_id'), 'created_by' => Yii::$app->user->id])
+            ->one();
+        if (!$model) {
+            $model = new Rating();
+            $model->post_id = Yii::$app->request->getBodyParam('post_id');
+        }
+        $model->value = Yii::$app->request->getBodyParam('value');
         if ($model->save()) {
             return $model;
         }
