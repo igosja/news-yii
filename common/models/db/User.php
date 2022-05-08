@@ -10,7 +10,8 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
- * User model
+ * Class User
+ * @package common\models\db
  *
  * @property int $id
  * @property string $auth_key
@@ -218,5 +219,16 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken(): void
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function fields(): array
+    {
+        return [
+            'id',
+            'username',
+        ];
     }
 }

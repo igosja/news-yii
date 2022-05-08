@@ -50,8 +50,13 @@ return [
                 [
                     'class' => UrlRule::class,
                     'controller' => 'post',
-                    'only' => ['index'],
-                    'pluralize' => false,
+                    'only' => ['index', 'view'],
+                    'extraPatterns' => [
+                        'GET,HEAD {url}' => 'view',
+                    ],
+                    'tokens' => [
+                        '{url}' => '<url>',
+                    ],
                 ],
             ],
             'showScriptName' => false,

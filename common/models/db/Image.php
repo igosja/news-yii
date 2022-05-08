@@ -77,6 +77,17 @@ class Image extends ActiveRecord
     }
 
     /**
+     * @return string[]
+     */
+    public function fields(): array
+    {
+        return [
+            'id',
+            'path',
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getResizes(): ActiveQuery

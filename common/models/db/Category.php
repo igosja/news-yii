@@ -66,4 +66,20 @@ class Category extends ActiveRecord
             'updated_at' => Yii::t('app', 'Updated at'),
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function fields(): array
+    {
+        return [
+            'id',
+            'created_at',
+            'is_active',
+            'title' => function () {
+                return $this->translation[Yii::$app->language];
+            },
+            'updated_at',
+        ];
+    }
 }
