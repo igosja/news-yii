@@ -75,4 +75,16 @@ class Language extends ActiveRecord
     {
         return self::find()->select(['code'])->column();
     }
+
+    /**
+     * @return string[]
+     */
+    public function fields(): array
+    {
+        return [
+            'id',
+            'code',
+            'name',
+        ];
+    }
 }

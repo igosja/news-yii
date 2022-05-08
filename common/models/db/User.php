@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace common\models\db;
 
 use Yii;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
@@ -80,12 +79,11 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @param $token
      * @param $type
-     * @return \yii\web\IdentityInterface|null
-     * @throws \yii\base\NotSupportedException
+     * @return \common\models\db\User|\yii\web\IdentityInterface|null
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::findOne(['auth_key' => $token, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**

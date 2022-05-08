@@ -129,16 +129,10 @@ class Post extends ActiveRecord
     {
         return [
             'id',
-            'category' => function () {
-                return $this->category;
-            },
+            'category',
             'created_at',
-            'createdBy' => function () {
-                return $this->createdBy;
-            },
-            'image' => function () {
-                return $this->image;
-            },
+            'createdBy',
+            'image',
             'is_active',
             'rating' => function () {
                 return $this->rating();
@@ -150,9 +144,7 @@ class Post extends ActiveRecord
                 return $this->translation_title[Yii::$app->language];
             },
             'updated_at',
-            'updatedBy' => function () {
-                return $this->updatedBy;
-            },
+            'updatedBy',
             'url',
             'views',
         ];

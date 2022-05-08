@@ -80,6 +80,23 @@ class Comment extends ActiveRecord
     }
 
     /**
+     * @return string[]
+     */
+    public function fields(): array
+    {
+        return [
+            'id',
+            'created_at',
+            'createdBy',
+            'language',
+            'post_id',
+            'text',
+            'updated_at',
+            'updatedBy',
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCreatedBy(): ActiveQuery

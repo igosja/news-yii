@@ -58,6 +58,11 @@ return [
                         '{url}' => '<url>',
                     ],
                 ],
+                [
+                    'class' => UrlRule::class,
+                    'controller' => 'comment',
+                    'only' => ['index', 'create'],
+                ],
             ],
             'showScriptName' => false,
         ],
