@@ -49,14 +49,8 @@ return [
             'rules' => [
                 [
                     'class' => UrlRule::class,
-                    'controller' => 'post',
-                    'only' => ['index', 'view'],
-                    'extraPatterns' => [
-                        'GET,HEAD {url}' => 'view',
-                    ],
-                    'tokens' => [
-                        '{url}' => '<url>',
-                    ],
+                    'controller' => 'category',
+                    'only' => ['index'],
                 ],
                 [
                     'class' => UrlRule::class,
@@ -67,6 +61,17 @@ return [
                     'class' => UrlRule::class,
                     'controller' => 'language',
                     'only' => ['index'],
+                ],
+                [
+                    'class' => UrlRule::class,
+                    'controller' => 'post',
+                    'only' => ['index', 'view'],
+                    'extraPatterns' => [
+                        'GET,HEAD {url}' => 'view',
+                    ],
+                    'tokens' => [
+                        '{url}' => '<url>',
+                    ],
                 ],
             ],
             'showScriptName' => false,
