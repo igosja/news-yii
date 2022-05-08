@@ -123,6 +123,42 @@ class Post extends ActiveRecord
     }
 
     /**
+     * @return array
+     */
+    public function fields(): array
+    {
+        return [
+            'id',
+            'category' => function () {
+                return $this->category;
+            },
+            'created_at',
+            'createdBy' => function () {
+                return $this->createdBy;
+            },
+            'image' => function () {
+                return $this->image;
+            },
+            'is_active',
+            'rating' => function () {
+                return $this->rating();
+            },
+            'text' => function () {
+                return $this->translation_text[Yii::$app->language];
+            },
+            'title' => function () {
+                return $this->translation_title[Yii::$app->language];
+            },
+            'updated_at',
+            'updatedBy' => function () {
+                return $this->updatedBy;
+            },
+            'url',
+            'views',
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getCategory(): ActiveQuery
