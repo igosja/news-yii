@@ -63,6 +63,11 @@ return [
                     'controller' => 'comment',
                     'only' => ['index', 'create'],
                 ],
+                [
+                    'class' => UrlRule::class,
+                    'controller' => 'language',
+                    'only' => ['index'],
+                ],
             ],
             'showScriptName' => false,
         ],
