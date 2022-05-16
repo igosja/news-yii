@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace backend\models\search;
 
-use common\models\db\Language;
+use common\models\db\Category;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -11,7 +11,7 @@ use yii\data\ActiveDataProvider;
  * Class CategorySearch
  * @package backend\models\search
  */
-class CategorySearch extends Language
+class CategorySearch extends Category
 {
     /**
      * @return array

@@ -49,6 +49,7 @@ return [
                 'contact' => 'site/contact',
                 'login' => 'site/login',
                 'logout' => 'site/logout',
+                'post/category/<category_id>' => 'post/index',
                 'post/rating/<url>/<value>' => 'post/rating',
                 'post/<url>' => 'post/view',
                 'request-password-reset' => 'site/request-password-reset',

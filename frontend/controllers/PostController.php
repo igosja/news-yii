@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
+use common\models\db\Category;
 use common\models\db\Comment;
 use common\models\db\Post;
 use common\models\db\Rating;
@@ -19,12 +20,18 @@ use yii\web\Response;
 class PostController extends AbstractController
 {
     /**
+     * @param int|null $category_id
      * @return string
      */
-    public function actionIndex(): string
+    public function actionIndex(int $category_id = null): string
     {
+        $categories = Category::find()
+            ->andWhere(['is_active' => true])
+            ->all();
+
         $query = Post::find()
-            ->andWhere(['is_active' => true]);
+            ->andWhere(['is_active' => true])
+            ->andFilterWhere(['category_id' => $category_id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -36,6 +43,7 @@ class PostController extends AbstractController
         $this->view->title = Yii::t('app', 'Posts');
 
         return $this->render('index', [
+            'categories' => $categories,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -79,6 +87,7 @@ class PostController extends AbstractController
 
         $this->view->title = Yii::t('app', $post->translation_title[Yii::$app->language]);
         $this->view->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Posts'), 'url' => ['/post/index']];
+        $this->view->params['breadcrumbs'][] = ['label' => $post->category->translation[Yii::$app->language], 'url' => ['/post/index', 'category_id' => $post->category_id]];
         $this->view->params['breadcrumbs'][] = $this->view->title;
 
         return $this->render('view', [

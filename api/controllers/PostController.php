@@ -16,10 +16,11 @@ class PostController extends AbstractController
     /**
      * @return \yii\data\ActiveDataProvider
      */
-    public function actionIndex(): ActiveDataProvider
+    public function actionIndex(int $category_id = null): ActiveDataProvider
     {
         $query = Post::find()
-            ->andWhere(['is_active' => true]);
+            ->andWhere(['is_active' => true])
+            ->andFilterWhere(['category_id' => $category_id]);
 
         return new ActiveDataProvider([
             'query' => $query,
