@@ -2,11 +2,11 @@ version: '3.2'
 
 services:
 
-  yii:
+  php:
     build: .
     ports:
       - "13080:80"
-    container_name: news-yii
+    container_name: yii-php
     volumes:
       # Re-use local composer cache via host-volume
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
@@ -27,7 +27,7 @@ services:
       - MYSQL_PASSWORD=password
     ports:
       - "33013:3306"
-    container_name: news-yii-mysql
+    container_name: yii-mysql
     command: mysqld --sql_mode="" --character-set-server=utf8 --collation-server=utf8_general_ci
 
   redis:
@@ -36,4 +36,4 @@ services:
       - ./docker/redis:/data
     ports:
       - "63713:6379"
-    container_name: news-yii-redis
+    container_name: yii-redis

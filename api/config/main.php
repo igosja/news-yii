@@ -67,11 +67,9 @@ return [
                     'controller' => 'post',
                     'only' => ['index', 'view'],
                     'extraPatterns' => [
-                        'GET,HEAD {category_id}' => 'index',
                         'GET,HEAD {url}' => 'view',
                     ],
                     'tokens' => [
-                        '{category_id}' => '<category_id:\d+>',
                         '{url}' => '<url>',
                     ],
                 ],
