@@ -97,7 +97,12 @@ class PostController extends AbstractController
         ]);
     }
 
-    public function actionRating($url, $value)
+    /**
+     * @param string $url
+     * @param int $value
+     * @return \yii\web\Response
+     */
+    public function actionRating(string $url, int $value): Response
     {
         $post = Post::find()
             ->andWhere(['is_active' => true])
